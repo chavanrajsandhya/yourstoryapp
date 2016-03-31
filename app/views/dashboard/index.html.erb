@@ -1,0 +1,13 @@
+<%= "Index dashboard" %><br/><br/>
+<%= link_to "sign_out", destroy_user_session_path, method: :delete %></br></br>
+
+<table border=2>
+	<tr>
+		<td>Tweet Content</td>
+	</tr>
+	<% @tweets.each do |tweet| %>
+	<tr>
+		<td><%= tweet.content %></td>
+	</tr>
+	<% end %>
+</table>
