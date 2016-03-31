@@ -7,7 +7,11 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
 
-  resources :dashboard
+  resources :dashboard do
+    collection do
+      get 'actual_tweets'
+    end
+  end
   # root 'welcome#index'
 
   root 'dashboard#index'
