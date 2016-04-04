@@ -3,8 +3,10 @@
 2. Rails 4.2.4
 3. Change the current working directory to local project
 4. run bundle
-5. run server: rails s
-6. in browser,
+5. create database : rake db:create
+6. run migrations : rake db:migrate
+7. run server: rails s
+8. in browser,
     Click on Login with twitter link
     It redirects to Twitter login page there give your twitter name and password, it will authenticate user first and redirect back to our project with sign in.
 after sign in i am displaying all the user tweets with content.
