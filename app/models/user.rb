@@ -31,7 +31,6 @@ class User < ActiveRecord::Base
       #create tweets table. define relationships, save required columns to tweets table
       tweet_ids = self.tweets.pluck(:id)
       unless tweet_ids.include?(tweet.id)
-        # raise tweet.created_at.strftime('%Y-%m-%d %H:%M:%S').to_time.inspect
         begin
       	  self.tweets.create(id: tweet.id, content: tweet.text.encode("UTF-8"), tweet_created_at: tweet.created_at)                     
         rescue
@@ -44,7 +43,6 @@ class User < ActiveRecord::Base
   def get_link_tweets(tweets)
     contents_with_link = []
     tweets.where(tweet_created_at: 7.days.ago..Time.now).each do |tweet|
-      # raise tweet.content.inspect
       if (tweet.content.match(/(<a>.*<\/a>|http)/))  
         contents_with_link << tweet
       end
