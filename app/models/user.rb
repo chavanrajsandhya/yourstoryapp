@@ -29,20 +29,23 @@ class User < ActiveRecord::Base
   def save_tweets
     client_object.home_timeline.each do |tweet|
       #create tweets table. define relationships, save required columns to tweets table
-      tweet_ids = self.tweets.pluck(:id)
+      uid = client_object.status(tweet).to_h[:user][:id]
+      tweet_ids = self.tweets.pluck(:id)      
       unless tweet_ids.include?(tweet.id)
         begin
-      	  self.tweets.create(id: tweet.id, content: tweet.text.encode("UTF-8"), tweet_created_at: tweet.created_at)                     
+      	  self.tweets.create(id: tweet.id, uid: uid, content: tweet.text.encode("UTF-8"), tweet_created_at: tweet.created_at)                     
         rescue
         end
       end
     end
-    get_link_tweets(tweets)
+    current_user_tweets = Tweet.where(uid: self.uid.to_i)
+    get_link_tweets(current_user_tweets)
   end
 
-  def get_link_tweets(tweets)
+  def get_link_tweets(current_user_tweets)
     contents_with_link = []
-    tweets.where(tweet_created_at: 7.days.ago..Time.now).each do |tweet|
+    # raise current_user_tweets.inspect
+    current_user_tweets.where(tweet_created_at: 7.days.ago..Time.now).each do |tweet|
       if (tweet.content.match(/(<a>.*<\/a>|http)/))  
         contents_with_link << tweet
       end
