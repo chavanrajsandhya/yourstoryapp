@@ -86,4 +86,23 @@ class User < ActiveRecord::Base
     # @max_count
   end
 
+  def self.domain_list
+    content_with_links = []
+
+    Tweet.all.each do |tweet|
+      if (tweet.content.match(/(<a>.*<\/a>|http)/))
+        content_with_links << tweet
+      end
+    end
+    domains = []
+    content_with_links.each do |link|
+      url = URI.extract(link.content)
+      puts link.content
+      ur = url[1]
+      uri = URI(ur.to_s)
+      domains << uri.host
+    end
+    domains
+  end
+
 end

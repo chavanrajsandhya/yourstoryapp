@@ -12,5 +12,9 @@ class DashboardController < ApplicationController
 
   def most_shared_links
   	@most_shared_links = User.most_shared_links
-  end 	
+  end
+
+  def domain_list
+    @domain_list = User.domain_list
+  end	
 end

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     collection do
       get 'actual_tweets'
       get 'most_shared_links'
+      get 'domain_list'
     end
   end
   # root 'welcome#index'
