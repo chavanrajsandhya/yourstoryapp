@@ -8,5 +8,9 @@ class DashboardController < ApplicationController
 
   def actual_tweets
   	@actual_tweets = Tweet.where(uid: current_user.uid).count
-  end  	
+  end 
+
+  def most_shared_links
+  	@most_shared_links = User.most_shared_links
+  end 	
 end

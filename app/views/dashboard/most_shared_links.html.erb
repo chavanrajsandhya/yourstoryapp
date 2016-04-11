@@ -1,0 +1,5 @@
+<%= "most shared links" %><br/><br/>
+
+<%= @most_shared_links %><br/><br/>
+<h4>Most Links Shared by User</h4><%= @most_shared_links.key(@most_shared_links.values.max) %>
+<%= link_to "Back", dashboard_index_path, method: :get %>

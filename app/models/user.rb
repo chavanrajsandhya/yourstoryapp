@@ -30,10 +30,11 @@ class User < ActiveRecord::Base
     client_object.home_timeline.each do |tweet|
       #create tweets table. define relationships, save required columns to tweets table
       uid = client_object.status(tweet).to_h[:user][:id]
-      tweet_ids = self.tweets.pluck(:id)      
+      user_name = client_object.status(tweet).to_h[:user][:name]
+      tweet_ids = self.tweets.pluck(:id)  
       unless tweet_ids.include?(tweet.id)
         begin
-      	  self.tweets.create(id: tweet.id, uid: uid, content: tweet.text.encode("UTF-8"), tweet_created_at: tweet.created_at)                     
+      	  self.tweets.create(id: tweet.id, uid: uid, user_name: user_name, content: tweet.text.encode("UTF-8"), tweet_created_at: tweet.created_at)                     
         rescue
         end
       end
@@ -52,4 +53,37 @@ class User < ActiveRecord::Base
     end
     contents_with_link
   end
+
+  def self.most_shared_links
+    user_name_with_count = Hash.new(0)
+    Tweet.all.each do |tweet|
+      if (tweet.content.match(/(<a>.*<\/a>|http)/))
+        # raise tweet.uid.inspect
+        user_name_with_count[tweet.user_name] += 1
+        # raise user_name_with_count.inspect
+        # @tweet_with_links << tweet
+      end
+      #return the key which is having highest count
+    end
+    user_name_with_count
+      # raise user_name_with_count.inspect
+
+    #@tweet_with_links = []
+    # @tweets.each do |tweet|
+    #   if (tweet.content.match(/(<a>.*<\/a>|http)/))
+    #     @tweet_with_links << tweet
+    #   end
+    # end
+    # @user_ids = []
+    # @tweet_with_links.each do |t|
+    #   @user_ids << t.uid  
+    # end
+    # # user_ids << @tweet_with_links.pluck(:uid)
+    # @user_ids.each do |uid|
+    #   @tweets_count << Tweet.where(uid: uid).count
+    #   @max_count = @tweets_count.max
+    # end
+    # @max_count
+  end
+
 end

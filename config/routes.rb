@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :dashboard do
     collection do
       get 'actual_tweets'
+      get 'most_shared_links'
     end
   end
   # root 'welcome#index'
